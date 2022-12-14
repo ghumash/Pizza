@@ -1,9 +1,11 @@
+import logoSvg from "../assets/img/pizza-logo.svg";
+
 export default function Header() {
   return (
     <div className="header">
       <div className="container">
         <div className="header__logo">
-          <img width="38" src="img/pizza-logo.svg" alt="Pizza" />
+          <img width="38" src={logoSvg} alt="Pizza" />
           <div>
             <h1>Pizzeria</h1>
             <p>The best pizza in the world!</p>
