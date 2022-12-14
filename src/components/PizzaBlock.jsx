@@ -1,4 +1,6 @@
-export default function PizzaBlock() {
+export default function PizzaBlock(props) {
+  const { title, price } = props;
+
   return (
     <div className="pizza-block">
       <img
@@ -6,7 +8,7 @@ export default function PizzaBlock() {
         src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
         alt="Pizza"
       />
-      <h4 className="pizza-block__title">Cheeseburger Pizza</h4>
+      <h4 className="pizza-block__title">{title}</h4>
       <div className="pizza-block__selector">
         <ul>
           <li className="active">Thin</li>
@@ -19,7 +21,7 @@ export default function PizzaBlock() {
         </ul>
       </div>
       <div className="pizza-block__bottom">
-        <div className="pizza-block__price">From 15$</div>
+        <div className="pizza-block__price">From {price} $</div>
         <div className="button button--outline button--add">
           <svg
             width="12"

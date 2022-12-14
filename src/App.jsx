@@ -16,13 +16,8 @@ export default function App() {
           </div>
           <h2 className="content__title">All pizzas</h2>
           <div className="content__items">
-            <PizzaBlock />
-            <PizzaBlock />
-            <PizzaBlock />
-            <PizzaBlock />
-            <PizzaBlock />
-            <PizzaBlock />
-            <PizzaBlock />
+            <PizzaBlock title="Mexicano" price={500}/>
+            <PizzaBlock title="Americano" price={400}/>
           </div>
         </div>
       </div>
