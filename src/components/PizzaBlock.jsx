@@ -1,5 +1,12 @@
+import React from "react";
+
+import { typeNames } from "../js/const";
+
 export default function PizzaBlock(props) {
-  const { title, price, imageUrl, sizes } = props;
+  const { title, price, imageUrl, sizes, types } = props;
+
+  const [activeType, setActiveType] = React.useState(0);
+  const [activeSize, setActiveSize] = React.useState(0);
 
   return (
     <div className="pizza-block">
@@ -7,13 +14,26 @@ export default function PizzaBlock(props) {
       <h4 className="pizza-block__title">{title}</h4>
       <div className="pizza-block__selector">
         <ul>
-          <li className="active">Thin</li>
-          <li>Traditional</li>
+          {types.map((type, i) => (
+            <li
+              key={type}
+              onClick={() => setActiveType(i)}
+              className={activeType === i ? "active" : null}
+            >
+              {typeNames[type]}
+            </li>
+          ))}
         </ul>
         <ul>
-          <li className="active">26 cm</li>
-          <li>30 cm</li>
-          <li>40 cm</li>
+          {sizes.map((size, i) => (
+            <li
+              key={size}
+              onClick={() => setActiveSize(i)}
+              className={activeSize === i ? "active" : null}
+            >
+              {size} cm
+            </li>
+          ))}
         </ul>
       </div>
       <div className="pizza-block__bottom">

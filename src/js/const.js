@@ -6,3 +6,7 @@ export const categories = [
   "Acute",
   "Closed",
 ];
+
+export const typeNames = ["Thin", "Traditional"];
+
+export const sortList = ["Popularity", "Price", "Alphabet"];

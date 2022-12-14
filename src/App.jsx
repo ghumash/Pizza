@@ -18,16 +18,8 @@ export default function App() {
           </div>
           <h2 className="content__title">All pizzas</h2>
           <div className="content__items">
-            {pizzas.map((obj) => {
-              return (
-                <PizzaBlock
-                  key={obj.id}
-                  title={obj.title}
-                  price={obj.price}
-                  imageUrl={obj.imageUrl}
-                  sizes={obj.sizes}
-                />
-              );
+            {pizzas.map((obj, i) => {
+              return <PizzaBlock key={obj.id} {...obj} />;
             })}
           </div>
         </div>
