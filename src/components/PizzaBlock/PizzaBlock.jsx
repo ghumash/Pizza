@@ -1,6 +1,6 @@
 import React from "react";
 
-import { typeNames } from "../js/const";
+import { typeNames } from "../../js/const";
 
 export default function PizzaBlock(props) {
   const { title, price, imageUrl, sizes, types } = props;
