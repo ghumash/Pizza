@@ -3,7 +3,11 @@
 .pizza-block {
   width: 280px;
   text-align: center;
-  margin: 20px 10px;
+
+  &-wrapper {
+    display: flex;
+    justify-content: center;
+  }
 
   &__image {
     width: 260px;
