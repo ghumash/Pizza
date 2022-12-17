@@ -1,9 +1,7 @@
 import { categories } from "../js/const";
 import React from "react";
 
-export default function Categories() {
-  const [activeIndex, setActiveIndex] = React.useState(0);
-
+export default function Categories({ value, onSelectCategory }) {
   return (
     <div className="categories">
       <ul>
@@ -11,8 +9,8 @@ export default function Categories() {
           return (
             <li
               key={category}
-              className={activeIndex === i ? "active" : null}
-              onClick={() => setActiveIndex(i)}
+              className={value === i ? "active" : null}
+              onClick={() => onSelectCategory(i)}
             >
               {category}
             </li>
