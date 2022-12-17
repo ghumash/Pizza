@@ -2,17 +2,17 @@ import React from "react";
 
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
-import PizzaBlock from "../components/PizzaBlock/PizzaBlock";
+import PizzaBlock from "../components/PizzaBlock";
 import PizzaBlockSkeleton from "../components/PizzaBlock/PizzaBlockSkeleton";
+import Pagination from "../components/Pagination";
+import { defaultSortType } from "../js/const";
 
-export default function Home() {
+export default function Home({ searchValue }) {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [categoryId, setCategoryId] = React.useState(0);
-  const [sortType, setSortType] = React.useState({
-    name: "Popularity",
-    sortProperty: "rating",
-  });
+  const [sortType, setSortType] = React.useState(defaultSortType);
+  const [currentPage, setCurrentPage] = React.useState(1);
 
   React.useEffect(() => {
     setIsLoading(true);
@@ -20,15 +20,17 @@ export default function Home() {
     const category = categoryId > 0 ? `category=${categoryId}` : "";
     const sortBy = sortType.sortProperty.replace("-", "");
     const order = sortType.sortProperty.includes("-") ? "asc" : "desc";
+    const search = searchValue ? `search=${searchValue}` : "";
+    const page = `?page=${currentPage}&limit=4&`;
 
-    fetch(`${URL}?${category}&sortBy=${sortBy}&order=${order}`)
+    fetch(`${URL}${page}?${category}&sortBy=${sortBy}&order=${order}${search}`)
       .then((res) => res.json())
       .then((arr) => {
         setItems(arr);
         setIsLoading(false);
       });
     window.scroll(0, 0);
-  }, [categoryId, sortType]);
+  }, [categoryId, sortType, searchValue, currentPage]);
 
   return (
     <div className="container">
@@ -45,6 +47,7 @@ export default function Home() {
           ? [...new Array(6)].map((_, i) => <PizzaBlockSkeleton key={i} />)
           : items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
       </div>
+      <Pagination onChangePage={(number) => setCurrentPage(number)} />
     </div>
   );
 }

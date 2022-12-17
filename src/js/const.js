@@ -17,3 +17,8 @@ export const sortList = [
   { name: "Alphabet(DESC)", sortProperty: "title" },
   { name: "Alphabet(ASC)", sortProperty: "-title" },
 ];
+
+export const defaultSortType = {
+  name: "Popularity(DESC)",
+  sortProperty: "rating",
+};

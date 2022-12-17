@@ -13,7 +13,7 @@ body {
   margin: 50px auto;
   border-radius: 10px;
   max-width: 1400px;
-  
+
   @media (max-width: 480px) {
     width: 100%;
     margin: auto;
@@ -180,14 +180,6 @@ body {
       justify-content: space-between;
       width: 13%;
 
-      &-minus {
-        svg {
-          path:first-of-type {
-            display: none;
-          }
-        }
-      }
-
       b {
         font-size: 22px;
       }
@@ -214,27 +206,6 @@ body {
 
       .button {
         border-color: darken($color: $gray-line, $amount: 10);
-      }
-
-      svg {
-        transform: rotate(45deg);
-
-        path {
-          fill: darken($color: $gray-line, $amount: 15);
-        }
-      }
-
-      .button {
-        svg {
-          width: 11.5px;
-          height: 11.5px;
-          position: relative;
-        }
-        &:hover,
-        &:active {
-          border-color: darken($color: $gray-line, $amount: 80);
-          background-color: darken($color: $gray-line, $amount: 80);
-        }
       }
     }
   }
@@ -267,11 +238,9 @@ body {
         align-items: center;
         justify-content: center;
         width: 210px;
-
         border-color: darken($color: $gray-line, $amount: 10);
 
         span {
-          color: darken($color: $gray-line, $amount: 20);
           font-weight: 500;
           font-weight: 600;
         }
@@ -279,18 +248,6 @@ body {
         &:hover {
           background-color: darken($color: $gray-line, $amount: 90);
           border-color: darken($color: $gray-line, $amount: 90);
-
-          span {
-            color: $gray-line;
-          }
-        }
-
-        svg {
-          margin-right: 12px;
-          path {
-            fill: transparent;
-            stroke-width: 2;
-          }
         }
       }
 

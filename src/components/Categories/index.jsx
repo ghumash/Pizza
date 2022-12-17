@@ -1,4 +1,4 @@
-import { categories } from "../js/const";
+import { categories } from "../../js/const";
 import React from "react";
 
 export default function Categories({ value, onSelectCategory }) {

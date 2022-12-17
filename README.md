@@ -5,3 +5,4 @@
 - **React Router**
 - **JavaScript**
 - **SASS**
+- **FontAwesome**
