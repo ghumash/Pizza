@@ -1,15 +1,14 @@
 {
+  "homepage": "https://ghumash.github.io/ContactManager/",
   "name": "pizza",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "homepage": "https://ghumash.github.io/Blog/",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "gh-pages": "^4.0.0",
     "react": "^18.2.0",
     "react-content-loader": "^6.2.0",
     "react-dom": "^18.2.0",
