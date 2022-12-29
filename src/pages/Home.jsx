@@ -6,13 +6,15 @@ import PizzaBlock from "../components/PizzaBlock";
 import PizzaBlockSkeleton from "../components/PizzaBlock/PizzaBlockSkeleton";
 import Pagination from "../components/Pagination";
 import { defaultSortType } from "../js/const";
+import { SearchContext } from "../App";
 
-export default function Home({ searchValue }) {
+export default function Home() {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [categoryId, setCategoryId] = React.useState(0);
   const [sortType, setSortType] = React.useState(defaultSortType);
   const [currentPage, setCurrentPage] = React.useState(1);
+  const { searchValue } = React.useContext(SearchContext);
 
   React.useEffect(() => {
     setIsLoading(true);
@@ -20,10 +22,10 @@ export default function Home({ searchValue }) {
     const category = categoryId > 0 ? `category=${categoryId}` : "";
     const sortBy = sortType.sortProperty.replace("-", "");
     const order = sortType.sortProperty.includes("-") ? "asc" : "desc";
-    const search = searchValue ? `search=${searchValue}` : "";
+    const search = searchValue ? `&search=${searchValue}` : "";
     const page = `?page=${currentPage}&limit=4&`;
 
-    fetch(`${URL}${page}?${category}&sortBy=${sortBy}&order=${order}${search}`)
+    fetch(`${URL}${page}${category}&sortBy=${sortBy}&order=${order}${search}`)
       .then((res) => res.json())
       .then((arr) => {
         setItems(arr);
@@ -31,6 +33,12 @@ export default function Home({ searchValue }) {
       });
     window.scroll(0, 0);
   }, [categoryId, sortType, searchValue, currentPage]);
+
+  const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
+
+  const sekeletons = [...new Array(6)].map((_, i) => (
+    <PizzaBlockSkeleton key={i} />
+  ));
 
   return (
     <div className="container">
@@ -42,11 +50,7 @@ export default function Home({ searchValue }) {
         <Sort value={sortType} onSelectSort={(obj) => setSortType(obj)} />
       </div>
       <h2 className="content__title">All pizzas</h2>
-      <div className="content__items">
-        {isLoading
-          ? [...new Array(6)].map((_, i) => <PizzaBlockSkeleton key={i} />)
-          : items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
-      </div>
+      <div className="content__items">{isLoading ? sekeletons : pizzas}</div>
       <Pagination onChangePage={(number) => setCurrentPage(number)} />
     </div>
   );
