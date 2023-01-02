@@ -7,15 +7,17 @@ import PizzaBlock from "../components/PizzaBlock";
 import PizzaBlockSkeleton from "../components/PizzaBlock/PizzaBlockSkeleton";
 import Pagination from "../components/Pagination";
 import { SearchContext } from "../App";
-import { setCategoryId } from "../redux/slices/filterSlice";
+import { setCategoryId, setCurrentPage } from "../redux/slices/filterSlice";
+import axios from "axios";
 
 export default function Home() {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [currentPage, setCurrentPage] = React.useState(1);
   const { searchValue } = React.useContext(SearchContext);
 
-  const { categoryId, sort } = useSelector((state) => state.filterReducer);
+  const { categoryId, sort, currentPage } = useSelector(
+    (state) => state.filterReducer
+  );
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -27,10 +29,10 @@ export default function Home() {
     const search = searchValue ? `&search=${searchValue}` : "";
     const page = `?page=${currentPage}&limit=4&`;
 
-    fetch(`${URL}${page}${category}&sortBy=${sortBy}&order=${order}${search}`)
-      .then((res) => res.json())
-      .then((arr) => {
-        setItems(arr);
+    axios
+      .get(`${URL}${page}${category}&sortBy=${sortBy}&order=${order}${search}`)
+      .then((res) => {
+        setItems(res.data);
         setIsLoading(false);
       });
     window.scroll(0, 0);
@@ -40,8 +42,11 @@ export default function Home() {
     dispatch(setCategoryId(i));
   };
 
-  const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
+  const onClickPagination = (number) => {
+    dispatch(setCurrentPage(number));
+  };
 
+  const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
   const sekeletons = [...new Array(6)].map((_, i) => (
     <PizzaBlockSkeleton key={i} />
   ));
@@ -54,7 +59,7 @@ export default function Home() {
       </div>
       <h2 className="content__title">All pizzas</h2>
       <div className="content__items">{isLoading ? sekeletons : pizzas}</div>
-      <Pagination onChangePage={(number) => setCurrentPage(number)} />
+      <Pagination onChangePage={onClickPagination} />
     </div>
   );
 }

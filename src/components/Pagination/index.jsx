@@ -8,8 +8,11 @@ import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
 
 export default function Pagination({ onChangePage }) {
+  const { currentPage } = useSelector((state) => state.filterReducer);
+
   return (
     <ReactPaginate
       className={style.root}
@@ -19,7 +22,8 @@ export default function Pagination({ onChangePage }) {
       onPageChange={(e) => onChangePage(e.selected + 1)}
       pageRangeDisplayed={4}
       pageCount={3}
+      forcePage={currentPage - 1}
       renderOnZeroPageCount={null}
     />
-  ); 
+  );
 }
