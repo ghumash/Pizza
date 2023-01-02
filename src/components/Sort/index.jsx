@@ -1,11 +1,16 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { sortList } from "../../js/const";
+import { setSort } from "../../redux/slices/filterSlice";
 
-export default function Sort({ value, onSelectSort }) {
+export default function Sort() {
   const [open, setOpen] = React.useState(false);
 
+  const dispactch = useDispatch();
+  const sort = useSelector((state) => state.filterReducer.sort);
+
   const handleSortItemClick = (obj) => {
-    onSelectSort(obj);
+    dispactch(setSort(obj))
     setOpen(false);
   };
 
@@ -13,7 +18,7 @@ export default function Sort({ value, onSelectSort }) {
     <div className="sort">
       <div className="sort__label">
         <b>Sort by</b>
-        <span onClick={() => setOpen(!open)}>{value.name}</span>
+        <span onClick={() => setOpen(!open)}>{sort.name}</span>
       </div>
       <div className="sort__popup">
         {open && (
@@ -23,7 +28,7 @@ export default function Sort({ value, onSelectSort }) {
                 <li
                   key={obj.name}
                   className={
-                    value.sortProperty === obj.sortProperty ? "active" : null
+                    sort.sortProperty === obj.sortProperty ? "active" : null
                   }
                   onClick={() => handleSortItemClick(obj)}
                 >

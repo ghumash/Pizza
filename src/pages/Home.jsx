@@ -1,27 +1,29 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock";
 import PizzaBlockSkeleton from "../components/PizzaBlock/PizzaBlockSkeleton";
 import Pagination from "../components/Pagination";
-import { defaultSortType } from "../js/const";
 import { SearchContext } from "../App";
+import { setCategoryId } from "../redux/slices/filterSlice";
 
 export default function Home() {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [categoryId, setCategoryId] = React.useState(0);
-  const [sortType, setSortType] = React.useState(defaultSortType);
   const [currentPage, setCurrentPage] = React.useState(1);
   const { searchValue } = React.useContext(SearchContext);
+
+  const { categoryId, sort } = useSelector((state) => state.filterReducer);
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
     setIsLoading(true);
     const URL = "https://637f4b1e2f8f56e28e86f2b5.mockapi.io/pizzas";
     const category = categoryId > 0 ? `category=${categoryId}` : "";
-    const sortBy = sortType.sortProperty.replace("-", "");
-    const order = sortType.sortProperty.includes("-") ? "asc" : "desc";
+    const sortBy = sort.sortProperty.replace("-", "");
+    const order = sort.sortProperty.includes("-") ? "asc" : "desc";
     const search = searchValue ? `&search=${searchValue}` : "";
     const page = `?page=${currentPage}&limit=4&`;
 
@@ -32,7 +34,11 @@ export default function Home() {
         setIsLoading(false);
       });
     window.scroll(0, 0);
-  }, [categoryId, sortType, searchValue, currentPage]);
+  }, [categoryId, sort.sortProperty, searchValue, currentPage]);
+
+  const onClickCategory = (i) => {
+    dispatch(setCategoryId(i));
+  };
 
   const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
 
@@ -43,11 +49,8 @@ export default function Home() {
   return (
     <div className="container">
       <div className="content__top">
-        <Categories
-          value={categoryId}
-          onSelectCategory={(i) => setCategoryId(i)}
-        />
-        <Sort value={sortType} onSelectSort={(obj) => setSortType(obj)} />
+        <Categories value={categoryId} onSelectCategory={onClickCategory} />
+        <Sort />
       </div>
       <h2 className="content__title">All pizzas</h2>
       <div className="content__items">{isLoading ? sekeletons : pizzas}</div>
