@@ -4,14 +4,24 @@ import { Link } from "react-router-dom";
 import {
   faCartShopping,
   faTrash,
-  faMinus,
-  faPlus,
-  faXmark,
   faChevronLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useDispatch, useSelector } from "react-redux";
+import CartItem from "../components/CartItem/CartItem";
+import { clearItems } from "../redux/slices/cartSlice";
 
 export default function Cart() {
+  const dispatch = useDispatch();
+  const {totalPrice, items} = useSelector((state) => state.cartReducer);
+  const totalCount = items.reduce((sum, item) => sum + item.count, 0);
+
+  const onClickClear = () => {
+    if (window.confirm("are you sure?")) {
+      dispatch(clearItems());
+    }
+  };
+
   return (
     <div className="container container--cart">
       <div className="cart">
@@ -20,50 +30,23 @@ export default function Cart() {
             <FontAwesomeIcon icon={faCartShopping} />
             Cart
           </h2>
-          <div className="cart__clear">
+          <div onClick={onClickClear} className="cart__clear">
             <FontAwesomeIcon icon={faTrash} />
             <span>Empty the trash</span>
           </div>
         </div>
         <div className="content__items">
-          <div className="cart__item">
-            <div className="cart__item-img">
-              <img
-                className="pizza-block__image"
-                src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-                alt="Pizza"
-              />
-            </div>
-            <div className="cart__item-info">
-              <h3>Cheese Pizza</h3>
-              <p>Thin, 30 cm</p>
-            </div>
-            <div className="cart__item-count">
-              <div className="button button--outline button--circle cart__item-count-minus">
-                <FontAwesomeIcon icon={faMinus} />
-              </div>
-              <b>2</b>
-              <div className="button button--outline button--circle cart__item-count-plus">
-                <FontAwesomeIcon icon={faPlus} />
-              </div>
-            </div>
-            <div className="cart__item-price">
-              <b>803 $</b>
-            </div>
-            <div className="cart__item-remove">
-              <div className="button button--outline button--circle">
-                <FontAwesomeIcon icon={faXmark} />
-              </div>
-            </div>
-          </div>
+          {items.map((item) => (
+            <CartItem key={item.id} {...item} />
+          ))}
         </div>
         <div className="cart__bottom">
           <div className="cart__bottom-details">
             <span>
-              Your pizzas. <b>1 piece</b>
+              Your pizzas. <b>{totalCount} piece</b>
             </span>
             <span>
-              Order price. <b>803 $</b>
+              Order price. <b>{totalPrice} $</b>
             </span>
           </div>
           <div className="cart__bottom-buttons">

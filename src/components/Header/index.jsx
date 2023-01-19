@@ -5,8 +5,12 @@ import Search from "../Search";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
 
 export default function Header() {
+  const { totalPrice, items } = useSelector((state) => state.cartReducer);
+  const totalCount = items.reduce((sum, item) => sum + item.count, 0);
+
   return (
     <div className="header">
       <div className="container">
@@ -22,10 +26,10 @@ export default function Header() {
         <Search />
         <div className="header__cart">
           <Link to="/cart" className="button button--cart">
-            <span>30 $</span>
+            <span>{totalPrice} $</span>
             <div className="button__delimiter"></div>
             <FontAwesomeIcon icon={faCartShopping} />
-            <span>3</span>
+            <span>{totalCount}</span>
           </Link>
         </div>
       </div>

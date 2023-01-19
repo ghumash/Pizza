@@ -8,14 +8,26 @@ export default function Sort() {
 
   const dispactch = useDispatch();
   const sort = useSelector((state) => state.filterReducer.sort);
+  const sortRef = React.useRef();
 
   const handleSortItemClick = (obj) => {
-    dispactch(setSort(obj))
+    dispactch(setSort(obj));
     setOpen(false);
   };
 
+  React.useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!e.path.includes(sortRef.current)) {
+        setOpen(false);
+      }
+    };
+    document.body.addEventListener("click", handleClickOutside);
+
+    return () => document.body.removeEventListener("click", handleClickOutside);
+  }, []);
+
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <b>Sort by</b>
         <span onClick={() => setOpen(!open)}>{sort.name}</span>

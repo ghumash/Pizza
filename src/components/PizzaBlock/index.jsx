@@ -4,12 +4,37 @@ import { typeNames } from "../../js/const";
 
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useDispatch, useSelector } from "react-redux";
+import { addItem } from "../../redux/slices/cartSlice";
 
-export default function PizzaBlock(props) {
-  const { title, price, imageUrl, sizes, types } = props;
-
+export default function PizzaBlock({
+  id,
+  title,
+  price,
+  imageUrl,
+  sizes,
+  types,
+}) {
   const [activeType, setActiveType] = React.useState(0);
   const [activeSize, setActiveSize] = React.useState(0);
+  const dispatch = useDispatch();
+  const cartItem = useSelector((state) =>
+    state.cartReducer.items.find((obj) => obj.id === id)
+  );
+
+  const addedCount = cartItem ? cartItem.count : 0;
+
+  const onClickAdd = () => {
+    const item = {
+      id,
+      title,
+      price,
+      imageUrl,
+      type: typeNames[activeType],
+      size: activeSize,
+    };
+    dispatch(addItem(item));
+  };
 
   return (
     <div className="pizza-block-wrapper">
@@ -42,9 +67,13 @@ export default function PizzaBlock(props) {
         </div>
         <div className="pizza-block__bottom">
           <div className="pizza-block__price">From {price} $</div>
-          <div className="button button--outline button--add">
-            <FontAwesomeIcon icon={faPlus} /><span>Add</span>
-            <i>2</i>
+          <div
+            className="button button--outline button--add"
+            onClick={onClickAdd}
+          >
+            <FontAwesomeIcon icon={faPlus} />
+            <span>Add</span>
+            {addedCount > 0 && <i>{addedCount}</i>}
           </div>
         </div>
       </div>
