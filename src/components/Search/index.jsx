@@ -4,23 +4,24 @@ import styles from "./Search.module.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { SearchContext } from "../../App";
 import debounce from "lodash.debounce";
+import { setSearchValue } from "../../redux/slices/filterSlice";
+import { useDispatch } from "react-redux";
 
 export default function Search() {
   const [value, setValue] = React.useState("");
-  const { setSearchValue } = React.useContext(SearchContext);
   const inputRef = React.useRef();
+  const dispatch = useDispatch();
 
   const onClickClear = () => {
-    setSearchValue("");
+    dispatch(setSearchValue(""));
     setValue("");
     inputRef.current.focus();
   };
 
   const updateSearchValue = React.useCallback(
     debounce((str) => {
-      setSearchValue(str);
+      dispatch(setSearchValue(str));
     }, 300),
     []
   );

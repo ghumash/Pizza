@@ -6,9 +6,10 @@ import Search from "../Search";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
+import { selectCart } from "../../redux/slices/cartSlice";
 
 export default function Header() {
-  const { totalPrice, items } = useSelector((state) => state.cartReducer);
+  const { totalPrice, items } = useSelector(selectCart);
   const totalCount = items.reduce((sum, item) => sum + item.count, 0);
 
   return (

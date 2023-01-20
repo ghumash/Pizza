@@ -9,9 +9,10 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
+import { selectFilter } from "../../redux/slices/filterSlice";
 
 export default function Pagination({ onChangePage }) {
-  const { currentPage } = useSelector((state) => state.filterReducer);
+  const { currentPage } = useSelector(selectFilter);
 
   return (
     <ReactPaginate

@@ -8,29 +8,26 @@ import Sort from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock";
 import PizzaBlockSkeleton from "../components/PizzaBlock/PizzaBlockSkeleton";
 import Pagination from "../components/Pagination";
-import { SearchContext } from "../App";
 import {
+  selectFilter,
   setCategoryId,
   setCurrentPage,
   setFilters,
 } from "../redux/slices/filterSlice";
 import { sortList } from "../js/const";
-import { fetchPizzas } from "../redux/slices/pizzaSlice";
+import { fetchPizzas, selectPizzaData } from "../redux/slices/pizzaSlice";
 import ErrorPage from "./ErrorPage";
-import notFoundImg from '../assets/img/not-found-page.png'
+import notFoundImg from "../assets/img/not-found-page.png";
 
 export default function Home() {
-  const { searchValue } = React.useContext(SearchContext);
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
 
-  const { categoryId, sort, currentPage } = useSelector(
-    (state) => state.filterReducer
-  );
-  const { items, status } = useSelector((state) => state.pizzaReducer);
+  const { categoryId, sort, currentPage, searchValue } =
+    useSelector(selectFilter);
+  const { items, status } = useSelector(selectPizzaData);
 
   const getPizzas = async () => {
     const URL = "https://637f4b1e2f8f56e28e86f2b5.mockapi.io/pizzas";

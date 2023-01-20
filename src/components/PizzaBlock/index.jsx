@@ -5,7 +5,7 @@ import { typeNames } from "../../js/const";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
-import { addItem } from "../../redux/slices/cartSlice";
+import { addItem, selectCartItemById } from "../../redux/slices/cartSlice";
 
 export default function PizzaBlock({
   id,
@@ -18,9 +18,7 @@ export default function PizzaBlock({
   const [activeType, setActiveType] = React.useState(0);
   const [activeSize, setActiveSize] = React.useState(0);
   const dispatch = useDispatch();
-  const cartItem = useSelector((state) =>
-    state.cartReducer.items.find((obj) => obj.id === id)
-  );
+  const cartItem = useSelector(selectCartItemById(id));
 
   const addedCount = cartItem ? cartItem.count : 0;
 
