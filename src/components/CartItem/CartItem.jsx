@@ -5,7 +5,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch } from "react-redux";
 import { addItem, minusItem, removeItem } from "../../redux/slices/cartSlice";
 
-export default function CartItem({ id, price, type, count, imageUrl, title }) {
+export default function CartItem({
+  id,
+  price,
+  size,
+  type,
+  count,
+  imageUrl,
+  title,
+}) {
   const dispatch = useDispatch();
 
   const onClickMinus = () => {
@@ -29,7 +37,9 @@ export default function CartItem({ id, price, type, count, imageUrl, title }) {
       </div>
       <div className="cart__item-info">
         <h3>{title}</h3>
-        <p>{type}, 30 cm</p>
+        <p>
+          {type}, {size} cm
+        </p>
       </div>
       <div className="cart__item-count">
         <div

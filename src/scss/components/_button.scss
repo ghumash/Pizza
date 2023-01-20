@@ -38,9 +38,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
-    min-width: 32px;
+    width: 25px;
+    height: 25px;
+    min-width: 25px;
     padding: 0;
     border-width: 2px;
   }
@@ -107,7 +107,7 @@
 
     span {
       font-weight: 600;
-      font-size: 16px;
+      font-size: 14px;
     }
 
     &:hover {
@@ -119,18 +119,13 @@
 
     i {
       display: inline-block;
+      padding: 0 5px;
       border-radius: 30px;
       background-color: $orange;
       color: #fff;
-      font-weight: 600;
-      width: 22px;
-      height: 22px;
+      margin-left: 5px;
       font-style: normal;
-      font-size: 13px;
-      line-height: 22px;
-      position: relative;
-      top: -1px;
-      left: 3px;
+      font-size: 12px;
     }
   }
 
@@ -138,7 +133,7 @@
     display: flex;
     align-items: center;
     line-height: 23px;
-    padding: 12px 25px;
+    padding: 8px 25px;
 
     @media (max-width: 730px) {
       justify-content: center;
@@ -155,7 +150,7 @@
 
     span {
       font-weight: 600;
-      font-size: 16px;
+      font-size: 14px;
 
       @media (max-width: 730px) {
         display: none;

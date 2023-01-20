@@ -10,10 +10,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import CartItem from "../components/CartItem/CartItem";
 import { clearItems } from "../redux/slices/cartSlice";
+import ErrorPage from "./ErrorPage";
+import emptyCartImg from "../assets/img/empty-cart.png";
 
 export default function Cart() {
   const dispatch = useDispatch();
-  const {totalPrice, items} = useSelector((state) => state.cartReducer);
+  const { totalPrice, items } = useSelector((state) => state.cartReducer);
   const totalCount = items.reduce((sum, item) => sum + item.count, 0);
 
   const onClickClear = () => {
@@ -21,6 +23,19 @@ export default function Cart() {
       dispatch(clearItems());
     }
   };
+
+  if (!totalPrice) {
+    return (
+      <ErrorPage
+        title={"Cart is empty"}
+        text={
+          "You probably haven't ordered pizza yet. To order a pizza, go to the main page."
+        }
+        button={{ link: "/", text: "Back To Pizzas" }}
+        img={emptyCartImg}
+      />
+    );
+  }
 
   return (
     <div className="container container--cart">

@@ -17,7 +17,7 @@ export default function Sort() {
 
   React.useEffect(() => {
     const handleClickOutside = (e) => {
-      if (!e.path.includes(sortRef.current)) {
+      if (e.target.offsetParent !== sortRef.current) {
         setOpen(false);
       }
     };

@@ -1,6 +1,5 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
 
@@ -16,10 +15,11 @@ import {
   setFilters,
 } from "../redux/slices/filterSlice";
 import { sortList } from "../js/const";
+import { fetchPizzas } from "../redux/slices/pizzaSlice";
+import ErrorPage from "./ErrorPage";
+import notFoundImg from '../assets/img/not-found-page.png'
 
 export default function Home() {
-  const [items, setItems] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
   const { searchValue } = React.useContext(SearchContext);
 
   const navigate = useNavigate();
@@ -30,9 +30,9 @@ export default function Home() {
   const { categoryId, sort, currentPage } = useSelector(
     (state) => state.filterReducer
   );
+  const { items, status } = useSelector((state) => state.pizzaReducer);
 
-  const fetchPizzas = () => {
-    setIsLoading(true);
+  const getPizzas = async () => {
     const URL = "https://637f4b1e2f8f56e28e86f2b5.mockapi.io/pizzas";
     const category = categoryId > 0 ? `category=${categoryId}` : "";
     const sortBy = sort.sortProperty.replace("-", "");
@@ -40,12 +40,7 @@ export default function Home() {
     const search = searchValue ? `&search=${searchValue}` : "";
     const page = `?page=${currentPage}&limit=4&`;
 
-    axios
-      .get(`${URL}${page}${category}&sortBy=${sortBy}&order=${order}${search}`)
-      .then((res) => {
-        setItems(res.data);
-        setIsLoading(false);
-      });
+    dispatch(fetchPizzas({ URL, category, sortBy, order, search, page }));
   };
 
   React.useEffect(() => {
@@ -62,7 +57,7 @@ export default function Home() {
   React.useEffect(() => {
     window.scroll(0, 0);
     if (!isSearch.current) {
-      fetchPizzas();
+      getPizzas();
     }
     isSearch.current = false;
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
@@ -98,8 +93,18 @@ export default function Home() {
         <Categories value={categoryId} onSelectCategory={onClickCategory} />
         <Sort />
       </div>
-      <h2 className="content__title">All pizzas</h2>
-      <div className="content__items">{isLoading ? sekeletons : pizzas}</div>
+      <h2 className="content__title">Pizzas</h2>
+      {status === "error" ? (
+        <ErrorPage
+          title={"An error has occurred"}
+          text={"Sorry, we couldn't get pizzas, please try again later."}
+          img={notFoundImg}
+        />
+      ) : (
+        <div className="content__items">
+          {status === "loading" ? sekeletons : pizzas}
+        </div>
+      )}
       <Pagination onChangePage={onClickPagination} />
     </div>
   );

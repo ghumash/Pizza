@@ -5,7 +5,8 @@ import "./scss/app.scss";
 import Header from "./components/Header";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
-import NotFound from "./pages/NotFound";
+import ErrorPage from "./pages/ErrorPage";
+import notFoundImg from "./assets/img/not-found-page.png";
 
 export const SearchContext = React.createContext("");
 
@@ -20,7 +21,17 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="*" element={<NotFound />} />
+            <Route
+              path="*"
+              element={
+                <ErrorPage
+                  title={"Page not found"}
+                  text={"Bad Request."}
+                  img={notFoundImg}
+                  button={{ link: "/", text: "Back To Main Page" }}
+                />
+              }
+            />
           </Routes>
         </div>
       </SearchContext.Provider>
