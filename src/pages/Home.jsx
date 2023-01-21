@@ -1,8 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import qs from "qs";
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate, Link } from "react-router-dom";
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock";
@@ -28,7 +27,6 @@ export default function Home() {
   const { categoryId, sort, currentPage, searchValue } =
     useSelector(selectFilter);
   const { items, status } = useSelector(selectPizzaData);
-
   const getPizzas = async () => {
     const URL = "https://637f4b1e2f8f56e28e86f2b5.mockapi.io/pizzas";
     const category = categoryId > 0 ? `category=${categoryId}` : "";
@@ -79,7 +77,11 @@ export default function Home() {
     dispatch(setCurrentPage(number));
   };
 
-  const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
+  const pizzas = items.map((obj) => (
+    <Link to={`/pizza/${obj.id}`} key={obj.id}>
+      <PizzaBlock {...obj} />
+    </Link>
+  ));
   const sekeletons = [...new Array(6)].map((_, i) => (
     <PizzaBlockSkeleton key={i} />
   ));
