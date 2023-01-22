@@ -2,8 +2,12 @@ import React from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
-export default function SinglePizza() {
-  const [pizza, setPizza] = React.useState();
+const SinglePizza: React.FC = () => {
+  const [pizza, setPizza] = React.useState<{
+    imageUrl: "string";
+    title: "string";
+    price: number;
+  }>();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -21,10 +25,6 @@ export default function SinglePizza() {
     fetchPizza();
   }, []);
 
-  if (!pizza) {
-    return "...loadaing";
-  }
-
   return (
     <div className="container">
       <div className="pizza-block">
@@ -34,4 +34,5 @@ export default function SinglePizza() {
       </div>
     </div>
   );
-}
+};
+export default SinglePizza;
