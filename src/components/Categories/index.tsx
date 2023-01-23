@@ -1,7 +1,8 @@
-import { categories } from "../../js/const";
-import React from "react";
+import { FC } from "react";
+import { categories } from "../../ts/const";
+import { ICategoriesProps } from "../../ts/type";
 
-export default function Categories({ value, onSelectCategory }) {
+const Categories: FC<ICategoriesProps> = ({ value, onSelectCategory }) => {
   return (
     <div className="categories">
       <ul>
@@ -19,4 +20,6 @@ export default function Categories({ value, onSelectCategory }) {
       </ul>
     </div>
   );
-}
+};
+
+export default Categories;

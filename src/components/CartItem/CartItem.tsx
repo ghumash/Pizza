@@ -1,19 +1,14 @@
-import React from "react";
+import { FC } from "react";
 
 import { faMinus, faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch } from "react-redux";
 import { addItem, minusItem, removeItem } from "../../redux/slices/cartSlice";
+import { ICartItemProps } from "../../ts/type";
 
-export default function CartItem({
-  id,
-  price,
-  size,
-  type,
-  count,
-  imageUrl,
-  title,
-}) {
+const CartItem: FC<ICartItemProps> = (props) => {
+  const { id, price, size, type, count, imageUrl, title } = props;
+
   const dispatch = useDispatch();
 
   const onClickMinus = () => {
@@ -69,4 +64,5 @@ export default function CartItem({
       </div>
     </div>
   );
-}
+};
+export default CartItem;

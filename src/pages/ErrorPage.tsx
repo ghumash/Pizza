@@ -1,8 +1,10 @@
-import React from "react";
+import { FC } from "react";
 import { Link } from "react-router-dom";
+import { IErrorPageProps } from "../ts/type";
 
-export default function ErrorPage(props) {
+const ErrorPage: FC<IErrorPageProps> = (props) => {
   const { title, text, button, img } = props;
+
   return (
     <div>
       <div className="container container--cart">
@@ -19,4 +21,6 @@ export default function ErrorPage(props) {
       </div>
     </div>
   );
-}
+};
+
+export default ErrorPage;

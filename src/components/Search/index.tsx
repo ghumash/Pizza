@@ -1,32 +1,31 @@
-import React from "react";
-
-import styles from "./Search.module.scss";
-
+import { FC, useState, useRef, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faXmark } from "@fortawesome/free-solid-svg-icons";
 import debounce from "lodash.debounce";
-import { setSearchValue } from "../../redux/slices/filterSlice";
 import { useDispatch } from "react-redux";
 
-export default function Search() {
-  const [value, setValue] = React.useState("");
-  const inputRef = React.useRef();
+import styles from "./Search.module.scss";
+import { setSearchValue } from "../../redux/slices/filterSlice";
+
+const Search: FC = () => {
+  const [value, setValue] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
 
   const onClickClear = () => {
     dispatch(setSearchValue(""));
     setValue("");
-    inputRef.current.focus();
+    inputRef.current?.focus();
   };
 
-  const updateSearchValue = React.useCallback(
-    debounce((str) => {
+  const updateSearchValue = useCallback(
+    debounce((str: string) => {
       dispatch(setSearchValue(str));
     }, 300),
     []
   );
 
-  const onChangeInput = (e) => {
+  const onChangeInput = (e: any) => {
     setValue(e.target.value);
     updateSearchValue(e.target.value);
   };
@@ -51,4 +50,6 @@ export default function Search() {
       )}
     </div>
   );
-}
+};
+
+export default Search;

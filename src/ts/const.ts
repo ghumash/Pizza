@@ -1,3 +1,5 @@
+import { SortItem } from "./type";
+
 export const categories = [
   "All",
   "Meaty",
@@ -9,7 +11,7 @@ export const categories = [
 
 export const typeNames = ["Thin", "Traditional"];
 
-export const sortList = [
+export const sortList: SortItem[] = [
   { name: "Popularity(DESC)", sortProperty: "rating" },
   { name: "Popularity(ASC)", sortProperty: "-rating" },
   { name: "Price(DESC)", sortProperty: "price" },

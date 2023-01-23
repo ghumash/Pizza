@@ -1,9 +1,9 @@
-import React from "react";
+import { useState, useEffect, FC } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
-const SinglePizza: React.FC = () => {
-  const [pizza, setPizza] = React.useState<{
+const SinglePizza: FC = () => {
+  const [pizza, setPizza] = useState<{
     imageUrl: "string";
     title: "string";
     price: number;
@@ -11,7 +11,7 @@ const SinglePizza: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  React.useEffect(() => {
+  useEffect(() => {
     async function fetchPizza() {
       try {
         const { data } = await axios.get(
@@ -35,4 +35,5 @@ const SinglePizza: React.FC = () => {
     </div>
   );
 };
+
 export default SinglePizza;

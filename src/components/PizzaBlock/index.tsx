@@ -1,22 +1,22 @@
-import React from "react";
-
-import { typeNames } from "../../js/const";
-
+import { FC, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useDispatch, useSelector } from "react-redux";
-import { addItem, selectCartItemById } from "../../redux/slices/cartSlice";
 
-export default function PizzaBlock({
+import { addItem, selectCartItemById } from "../../redux/slices/cartSlice";
+import { typeNames } from "../../ts/const";
+import { IPizzaBlockProps } from "../../ts/type";
+
+const PizzaBlock: FC<IPizzaBlockProps> = ({
   id,
   title,
   price,
   imageUrl,
   sizes,
   types,
-}) {
-  const [activeType, setActiveType] = React.useState(0);
-  const [activeSize, setActiveSize] = React.useState(0);
+}) => {
+  const [activeType, setActiveType] = useState(0);
+  const [activeSize, setActiveSize] = useState(0);
   const dispatch = useDispatch();
   const cartItem = useSelector(selectCartItemById(id));
 
@@ -77,4 +77,6 @@ export default function PizzaBlock({
       </div>
     </div>
   );
-}
+};
+
+export default PizzaBlock;

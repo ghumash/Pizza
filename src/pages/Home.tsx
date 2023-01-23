@@ -1,7 +1,8 @@
-import React from "react";
+import { FC, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import qs from "qs";
 import { useNavigate, Link } from "react-router-dom";
+
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock";
@@ -13,16 +14,16 @@ import {
   setCurrentPage,
   setFilters,
 } from "../redux/slices/filterSlice";
-import { sortList } from "../js/const";
+import { sortList } from "../ts/const";
 import { fetchPizzas, selectPizzaData } from "../redux/slices/pizzaSlice";
 import ErrorPage from "./ErrorPage";
 import notFoundImg from "../assets/img/not-found-page.png";
 
-export default function Home() {
+const Home: FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isSearch = React.useRef(false);
-  const isMounted = React.useRef(false);
+  const isSearch = useRef(false);
+  const isMounted = useRef(false);
 
   const { categoryId, sort, currentPage, searchValue } =
     useSelector(selectFilter);
@@ -35,10 +36,20 @@ export default function Home() {
     const search = searchValue ? `&search=${searchValue}` : "";
     const page = `?page=${currentPage}&limit=4&`;
 
-    dispatch(fetchPizzas({ URL, category, sortBy, order, search, page }));
+    dispatch(
+      // @ts-ignore
+      fetchPizzas({
+        URL,
+        category,
+        sortBy,
+        order,
+        search,
+        page,
+      })
+    );
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (window.location.hash.substring(3).length !== 0) {
       const params = qs.parse(window.location.hash.substring(3));
       const sort = sortList.find(
@@ -49,7 +60,7 @@ export default function Home() {
     }
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     window.scroll(0, 0);
     if (!isSearch.current) {
       getPizzas();
@@ -57,7 +68,7 @@ export default function Home() {
     isSearch.current = false;
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isMounted.current) {
       const queryStr = qs.stringify({
         sortProperty: sort.sortProperty,
@@ -69,15 +80,15 @@ export default function Home() {
     isMounted.current = true;
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
-  const onClickCategory = (i) => {
+  const onClickCategory = (i: number) => {
     dispatch(setCategoryId(i));
   };
 
-  const onClickPagination = (number) => {
+  const onClickPagination = (number: number) => {
     dispatch(setCurrentPage(number));
   };
 
-  const pizzas = items.map((obj) => (
+  const pizzas = items.map((obj: any) => (
     <Link to={`/pizza/${obj.id}`} key={obj.id}>
       <PizzaBlock {...obj} />
     </Link>
@@ -98,6 +109,7 @@ export default function Home() {
           title={"An error has occurred"}
           text={"Sorry, we couldn't get pizzas, please try again later."}
           img={notFoundImg}
+          button={null}
         />
       ) : (
         <div className="content__items">
@@ -107,4 +119,6 @@ export default function Home() {
       <Pagination onChangePage={onClickPagination} />
     </div>
   );
-}
+};
+
+export default Home;

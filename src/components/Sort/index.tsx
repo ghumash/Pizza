@@ -1,22 +1,24 @@
-import React from "react";
+import { useState, useRef, useEffect, FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { sortList } from "../../js/const";
-import { selectSort, setSort } from "../../redux/slices/filterSlice";
 
-export default function Sort() {
-  const [open, setOpen] = React.useState(false);
+import { sortList } from "../../ts/const";
+import { selectSort, setSort } from "../../redux/slices/filterSlice";
+import { SortItem } from "../../ts/type";
+
+const Sort: FC = () => {
+  const [open, setOpen] = useState(false);
 
   const dispactch = useDispatch();
   const sort = useSelector(selectSort);
-  const sortRef = React.useRef();
+  const sortRef = useRef<HTMLDivElement>(null);
 
-  const handleSortItemClick = (obj) => {
+  const handleSortItemClick = (obj: SortItem) => {
     dispactch(setSort(obj));
     setOpen(false);
   };
 
-  React.useEffect(() => {
-    const handleClickOutside = (e) => {
+  useEffect(() => {
+    const handleClickOutside = (e: any) => {
       if (e.target.offsetParent !== sortRef.current) {
         setOpen(false);
       }
@@ -53,4 +55,5 @@ export default function Sort() {
       </div>
     </div>
   );
-}
+};
+export default Sort;
