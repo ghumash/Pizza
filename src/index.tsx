@@ -10,10 +10,11 @@ import Home from "./pages/Home";
 import notFoundImg from "./assets/img/not-found-page.png";
 import MainLayout from "./layouts/MainLayout";
 import "./scss/index.scss";
+import { Loading } from "./components";
 
 const Cart = Loadable({
   loader: () => import(/* webpack: "Cart" */ "./pages/Cart"),
-  loading: () => <div>...loading</div>,
+  loading: () => <Loading />,
 });
 
 const ErrorPage = lazy(
@@ -31,18 +32,11 @@ root.render(
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route path="" element={<Home />} />
-          <Route
-            path="cart"
-            element={
-              <Suspense fallback={<div>...loading</div>}>
-                <Cart />
-              </Suspense>
-            }
-          />
+          <Route path="cart" element={<Cart />} />
           <Route
             path="pizza/:id"
             element={
-              <Suspense fallback={<>...loading</>}>
+              <Suspense fallback={<Loading />}>
                 <SinglePizza />
               </Suspense>
             }
@@ -50,7 +44,7 @@ root.render(
           <Route
             path="*"
             element={
-              <Suspense fallback={<>...loading</>}>
+              <Suspense fallback={<Loading />}>
                 <ErrorPage
                   title={"Page not found"}
                   text={"Bad Request."}

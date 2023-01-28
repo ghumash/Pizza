@@ -1,6 +1,7 @@
 import { useState, useEffect, FC } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { Loading } from "../components";
 
 const SinglePizza: FC = () => {
   const [pizza, setPizza] = useState<{
@@ -26,7 +27,7 @@ const SinglePizza: FC = () => {
   }, []);
 
   if (!pizza) {
-    return <>loading...</>;
+    return <Loading />;
   }
 
   return (

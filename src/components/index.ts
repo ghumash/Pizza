@@ -6,3 +6,4 @@ export * from "./PizzaBlock";
 export * from "./PizzaBlock/Skeleton";
 export * from "./Search";
 export * from "./Sort";
+export * from "./Loading";
