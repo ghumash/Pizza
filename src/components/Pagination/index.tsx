@@ -8,10 +8,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import style from "./Pagination.module.scss";
-import { selectFilter } from "../../redux/slices/filterSlice";
 import { IPaginationProps } from "../../ts/type";
+import { selectFilter } from "../../redux/filter/selectors";
 
-const Pagination: FC<IPaginationProps> = ({ onChangePage }) => {
+export const Pagination: FC<IPaginationProps> = ({ onChangePage }) => {
   const { currentPage } = useSelector(selectFilter);
 
   return (
@@ -28,4 +28,4 @@ const Pagination: FC<IPaginationProps> = ({ onChangePage }) => {
   );
 };
 
-export default Pagination;
+ 

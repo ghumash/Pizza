@@ -7,11 +7,12 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 
-import { clearItems, selectCart } from "../redux/slices/cartSlice";
 import ErrorPage from "./ErrorPage";
 import emptyCartImg from "../assets/img/empty-cart.png";
 import { FC } from "react";
-import CartItemBlock from "../components/CartItemBlock";
+import { CartItemBlock } from "../components";
+import { selectCart } from "../redux/cart/selectors";
+import { clearItems } from "../redux/cart/slice";
 
 const Cart: FC = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,6 @@ const Cart: FC = () => {
     (sum: number, item: any) => sum + item.count,
     0
   );
-  console.log(items);
   const onClickClear = () => {
     if (window.confirm("are you sure?")) {
       dispatch(clearItems());

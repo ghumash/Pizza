@@ -3,12 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { addItem, selectCartItemById } from "../../redux/slices/cartSlice";
 import { typeNames } from "../../ts/const";
-import { CartItem, IPizzaBlockProps } from "../../ts/type";
 import { Link } from "react-router-dom";
+import { IPizzaBlockProps } from "../../ts/type";
+import { selectCartItemById } from "../../redux/cart/selectors";
+import { CartItem } from "../../redux/cart/types";
+import { addItem } from "../../redux/cart/slice";
 
-const PizzaBlock: FC<IPizzaBlockProps> = ({
+export const PizzaBlock: FC<IPizzaBlockProps> = ({
   id,
   title,
   price,
@@ -82,5 +84,3 @@ const PizzaBlock: FC<IPizzaBlockProps> = ({
     </div>
   );
 };
-
-export default PizzaBlock;

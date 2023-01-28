@@ -7,4 +7,9 @@ https://ghumash.github.io/Pizza/
 - **Type Script**
 - **Redux Toolkit**
 - **Axios**
-- **SASS**
+- **React Router**
+- **Code Splitting, React Loadable**
+- **Lodash.Debounce**
+- **React Loadable**
+- **React Skeleton**
+- **CSS-Modules / SCSS**

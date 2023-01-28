@@ -1,21 +1,31 @@
-import { FC } from "react";
+import { FC, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import logoSvg from "../../assets/img/pizza-logo.svg";
-import Search from "../Search";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
-import { selectCart } from "../../redux/slices/cartSlice";
+import { selectCart } from "../../redux/cart/selectors";
+import { Search } from "../";
 
-const Header: FC = () => {
+export const Header: FC = () => {
+  const location = useLocation();
+  const isMounted = useRef(false);
   const { totalPrice, items } = useSelector(selectCart);
+
   const totalCount = items.reduce(
     (sum: number, item: any) => sum + item.count,
     0
   );
-  const location = useLocation();
+
+  useEffect(() => {
+    if (isMounted.current) {
+      const json = JSON.stringify(items);
+      window.localStorage.setItem("cart", json);
+    }
+    isMounted.current = true;
+  }, [items]);
 
   return (
     <div className="header">
@@ -29,20 +39,20 @@ const Header: FC = () => {
             </div>
           </div>
         </Link>
-        <Search />
         {location.pathname !== "/cart" && (
-          <div className="header__cart">
-            <Link to="/cart" className="button button--cart">
-              <span>{totalPrice} $</span>
-              <div className="button__delimiter"></div>
-              <FontAwesomeIcon icon={faCartShopping} />
-              <span>{totalCount}</span>
-            </Link>
-          </div>
+          <>
+            <Search />
+            <div className="header__cart">
+              <Link to="/cart" className="button button--cart">
+                <span>{totalPrice} $</span>
+                <div className="button__delimiter"></div>
+                <FontAwesomeIcon icon={faCartShopping} />
+                <span>{totalCount}</span>
+              </Link>
+            </div>
+          </>
         )}
       </div>
     </div>
   );
 };
-
-export default Header;

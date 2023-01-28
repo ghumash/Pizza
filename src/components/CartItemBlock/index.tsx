@@ -2,11 +2,11 @@ import { FC } from "react";
 import { faMinus, faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch } from "react-redux";
+import { ICartItemProps } from "../../ts/type";
+import { addItem, minusItem, removeItem } from "../../redux/cart/slice";
+import { CartItem } from "../../redux/cart/types";
 
-import { addItem, minusItem, removeItem } from "../../redux/slices/cartSlice";
-import { CartItem, ICartItemProps } from "../../ts/type";
-
-const CartItemBlock: FC<ICartItemProps> = (props) => {
+export const CartItemBlock: FC<ICartItemProps> = (props) => {
   const { id, price, size, type, count, imageUrl, title } = props;
   const dispatch = useDispatch();
 
@@ -67,4 +67,3 @@ const CartItemBlock: FC<ICartItemProps> = (props) => {
     </div>
   );
 };
-export default CartItemBlock;

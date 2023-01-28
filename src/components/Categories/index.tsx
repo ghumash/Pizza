@@ -1,8 +1,8 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 import { categories } from "../../ts/const";
 import { ICategoriesProps } from "../../ts/type";
 
-const Categories: FC<ICategoriesProps> = ({ value, onSelectCategory }) => {
+export const Categories: FC<ICategoriesProps> = memo(({ value, onSelectCategory }) => {
   return (
     <div className="categories">
       <ul>
@@ -20,6 +20,4 @@ const Categories: FC<ICategoriesProps> = ({ value, onSelectCategory }) => {
       </ul>
     </div>
   );
-};
-
-export default Categories;
+});
