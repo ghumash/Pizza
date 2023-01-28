@@ -18,8 +18,9 @@ const Sort: FC = () => {
   };
 
   useEffect(() => {
-    const handleClickOutside = (e: any) => {
-      if (e.target.offsetParent !== sortRef.current) {
+    const handleClickOutside = (e: Event) => {
+      const path = e.composedPath();
+      if (!path.includes(sortRef.current)) {
         setOpen(false);
       }
     };

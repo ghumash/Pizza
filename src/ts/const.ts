@@ -1,4 +1,4 @@
-import { SortItem } from "./type";
+import { SortItem, SortPropertyEnum } from "./type";
 
 export const categories = [
   "All",
@@ -12,15 +12,15 @@ export const categories = [
 export const typeNames = ["Thin", "Traditional"];
 
 export const sortList: SortItem[] = [
-  { name: "Popularity(DESC)", sortProperty: "rating" },
-  { name: "Popularity(ASC)", sortProperty: "-rating" },
-  { name: "Price(DESC)", sortProperty: "price" },
-  { name: "Price(ASC)", sortProperty: "-price" },
-  { name: "Alphabet(DESC)", sortProperty: "title" },
-  { name: "Alphabet(ASC)", sortProperty: "-title" },
+  { name: "Popularity(DESC)", sortProperty: SortPropertyEnum.PRICE_DESC },
+  { name: "Popularity(ASC)", sortProperty: SortPropertyEnum.PRICE_ASC },
+  { name: "Price(DESC)", sortProperty: SortPropertyEnum.PRICE_DESC },
+  { name: "Price(ASC)", sortProperty: SortPropertyEnum.PRICE_ASC },
+  { name: "Alphabet(DESC)", sortProperty: SortPropertyEnum.PRICE_DESC },
+  { name: "Alphabet(ASC)", sortProperty: SortPropertyEnum.PRICE_ASC },
 ];
 
 export const defaultSortType = {
   name: "Popularity(DESC)",
-  sortProperty: "rating",
+  sortProperty: SortPropertyEnum.RATING_DESC,
 };

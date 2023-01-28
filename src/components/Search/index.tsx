@@ -1,4 +1,4 @@
-import { FC, useState, useRef, useCallback } from "react";
+import { FC, useState, useRef, useCallback, ChangeEvent } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faXmark } from "@fortawesome/free-solid-svg-icons";
 import debounce from "lodash.debounce";
@@ -25,7 +25,7 @@ const Search: FC = () => {
     []
   );
 
-  const onChangeInput = (e: any) => {
+  const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
     updateSearchValue(e.target.value);
   };

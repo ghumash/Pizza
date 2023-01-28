@@ -185,6 +185,24 @@ body {
       justify-content: space-between;
       width: 10%;
 
+      &-minus:disabled {
+        opacity: 0.4;
+
+        &:active {
+          transform: none;
+        }
+
+        &:hover {
+          color: #fe5f1e;
+          background-color: #fff;
+          cursor: default;
+
+          svg path {
+            fill: #fe5f1e;
+          }
+        }
+      }
+
       b {
         font-size: 16px;
       }

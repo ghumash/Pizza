@@ -1,7 +1,7 @@
 import { FC, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import qs from "qs";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
@@ -18,67 +18,17 @@ import { sortList } from "../ts/const";
 import { fetchPizzas, selectPizzaData } from "../redux/slices/pizzaSlice";
 import ErrorPage from "./ErrorPage";
 import notFoundImg from "../assets/img/not-found-page.png";
+import { useAppDispatch } from "../redux/store";
+import { SearchPizzaParams } from "../ts/type";
 
 const Home: FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const isSearch = useRef(false);
+  const dispatch = useAppDispatch();
   const isMounted = useRef(false);
 
   const { categoryId, sort, currentPage, searchValue } =
     useSelector(selectFilter);
   const { items, status } = useSelector(selectPizzaData);
-  const getPizzas = async () => {
-    const URL = "https://637f4b1e2f8f56e28e86f2b5.mockapi.io/pizzas";
-    const category = categoryId > 0 ? `category=${categoryId}` : "";
-    const sortBy = sort.sortProperty.replace("-", "");
-    const order = sort.sortProperty.includes("-") ? "asc" : "desc";
-    const search = searchValue ? `&search=${searchValue}` : "";
-    const page = `?page=${currentPage}&limit=4&`;
-
-    dispatch(
-      // @ts-ignore
-      fetchPizzas({
-        URL,
-        category,
-        sortBy,
-        order,
-        search,
-        page,
-      })
-    );
-  };
-
-  useEffect(() => {
-    if (window.location.hash.substring(3).length !== 0) {
-      const params = qs.parse(window.location.hash.substring(3));
-      const sort = sortList.find(
-        (obj) => obj.sortProperty === params.sortProperty
-      );
-      dispatch(setFilters({ ...params, sort }));
-      isSearch.current = true;
-    }
-  }, []);
-
-  useEffect(() => {
-    window.scroll(0, 0);
-    if (!isSearch.current) {
-      getPizzas();
-    }
-    isSearch.current = false;
-  }, [categoryId, sort.sortProperty, searchValue, currentPage]);
-
-  useEffect(() => {
-    if (isMounted.current) {
-      const queryStr = qs.stringify({
-        sortProperty: sort.sortProperty,
-        categoryId,
-        currentPage,
-      });
-      navigate(`?${queryStr}`);
-    }
-    isMounted.current = true;
-  }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
   const onClickCategory = (i: number) => {
     dispatch(setCategoryId(i));
@@ -88,11 +38,62 @@ const Home: FC = () => {
     dispatch(setCurrentPage(number));
   };
 
-  const pizzas = items.map((obj: any) => (
-    <Link to={`/pizza/${obj.id}`} key={obj.id}>
-      <PizzaBlock {...obj} />
-    </Link>
-  ));
+  const getPizzas = async () => {
+    const sortBy = sort.sortProperty.replace("-", "");
+    const order = sort.sortProperty.includes("-") ? "asc" : "desc";
+    const category = categoryId > 0 ? `category=${categoryId}` : "";
+    const search = searchValue ? `&search=${searchValue}` : "";
+
+    dispatch(
+      fetchPizzas({
+        sortBy,
+        category,
+        order,
+        search,
+        currentPage: String(currentPage),
+      })
+    );
+  };
+
+  // useEffect(() => {
+  //   if (isMounted.current) {
+  //     const params = {
+  //       categoryId: categoryId > 0 ? categoryId : null,
+  //       sortProperty: sort.sortProperty,
+  //       currentPage,
+  //     };
+  //     const queryStr = qs.stringify(params, { skipNulls: true });
+  //     navigate(`?${queryStr}`);
+  //   }
+
+  //   if (window.location.hash.substring(3).length !== 0) {
+  //     dispatch(fetchPizzas({} as SearchPizzaParams));
+  //   }
+  // }, [categoryId, sort.sortProperty, searchValue, currentPage]);
+
+  useEffect(() => {
+    getPizzas();
+  }, [categoryId, sort.sortProperty, searchValue, currentPage]);
+
+  // useEffect(() => {
+  //   if (window.location.hash.substring(3).length !== 0) {
+  //     const params = qs.parse(
+  //       window.location.hash.substring(3)
+  //     ) as unknown as SearchPizzaParams;
+  //     const sort = sortList.find((obj) => obj.sortProperty === params.sortBy);
+  //     dispatch(
+  //       setFilters({
+  //         searchValue: params.search,
+  //         categoryId: Number(params.category),
+  //         currentPage: Number(params.currentPage),
+  //         sort: sort || sortList[0],
+  //       })
+  //     );
+  //   }
+  //   isMounted.current = true;
+  // }, []);
+
+  const pizzas = items.map((obj: any) => <PizzaBlock key={obj.id} {...obj} />);
   const sekeletons = [...new Array(6)].map((_, i) => (
     <PizzaBlockSkeleton key={i} />
   ));
@@ -109,7 +110,6 @@ const Home: FC = () => {
           title={"An error has occurred"}
           text={"Sorry, we couldn't get pizzas, please try again later."}
           img={notFoundImg}
-          button={null}
         />
       ) : (
         <div className="content__items">

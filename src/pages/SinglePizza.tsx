@@ -4,8 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const SinglePizza: FC = () => {
   const [pizza, setPizza] = useState<{
-    imageUrl: "string";
-    title: "string";
+    imageUrl: string;
+    title: string;
     price: number;
   }>();
   const { id } = useParams();
@@ -24,6 +24,10 @@ const SinglePizza: FC = () => {
     }
     fetchPizza();
   }, []);
+
+  if (!pizza) {
+    return <>loading...</>;
+  }
 
   return (
     <div className="container">

@@ -1,14 +1,13 @@
 import { FC } from "react";
-
 import { faMinus, faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch } from "react-redux";
+
 import { addItem, minusItem, removeItem } from "../../redux/slices/cartSlice";
-import { ICartItemProps } from "../../ts/type";
+import { CartItem, ICartItemProps } from "../../ts/type";
 
-const CartItem: FC<ICartItemProps> = (props) => {
+const CartItemBlock: FC<ICartItemProps> = (props) => {
   const { id, price, size, type, count, imageUrl, title } = props;
-
   const dispatch = useDispatch();
 
   const onClickMinus = () => {
@@ -16,7 +15,7 @@ const CartItem: FC<ICartItemProps> = (props) => {
   };
 
   const onClickPlus = () => {
-    dispatch(addItem({ id }));
+    dispatch(addItem({ id } as CartItem));
   };
 
   const onClickRemove = () => {
@@ -37,19 +36,22 @@ const CartItem: FC<ICartItemProps> = (props) => {
         </p>
       </div>
       <div className="cart__item-count">
-        <div
+        <button
+          disabled={count === 1}
           onClick={onClickMinus}
-          className="button button--outline button--circle cart__item-count-minus"
+          className={
+            "button button--outline button--circle cart__item-count-minus"
+          }
         >
           <FontAwesomeIcon icon={faMinus} />
-        </div>
+        </button>
         <b>{count}</b>
-        <div
+        <button
           onClick={onClickPlus}
           className="button button--outline button--circle cart__item-count-plus"
         >
           <FontAwesomeIcon icon={faPlus} />
-        </div>
+        </button>
       </div>
       <div className="cart__item-price">
         <b>{price * count} $</b>
@@ -65,4 +67,4 @@ const CartItem: FC<ICartItemProps> = (props) => {
     </div>
   );
 };
-export default CartItem;
+export default CartItemBlock;
